@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌀 ChartHal</title>
+  <meta name="description" content="A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <!-- Open Graph / Twitter (replace placeholders) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ChartHal — Paper Website" />
+  <meta property="og:description" content="A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <meta property="og:url" content="https://ymcui.github.io/charthal/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Optional favicon (place your file at assets/favicon.svg or .png) -->
+  <link rel="icon" href="assets/favicon.svg" />
+
+  <!--
+    HOW TO USE THIS TEMPLATE (quick):
+    1) Search "REPLACE" and fill in your details.
+    2) Put images into /assets (teaser.jpg, team photos, gallery imgs).
+    3) Commit this file as index.html to your GitHub Pages repo.
+       - For a project page: REPO > Settings > Pages > Deploy from main > / (root)
+       - For a user page: create repo named YOURNAME.github.io and put this at root.
+    4) Optional: set a custom domain in Settings > Pages (add CNAME file).
+  -->
+
+  <style>
+    /* =====================
+       Design System
+       ===================== */
+    :root {
+      --bg: #0b1020;
+      --panel: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #0ea5e9;
+      --brand-2: #22d3ee;
+      --ring: 0 0 0 2px rgba(14,165,233,.35);
+      --card: #0b1220;
+      --shadow: 0 10px 30px rgba(2,6,23,.4);
+      --border: rgba(148,163,184,.18);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    [data-theme="light"]{
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --brand: #0369a1;
+      --brand-2: #0891b2;
+      --ring: 0 0 0 2px rgba(3,105,161,.25);
+      --card: #ffffff;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --border: rgba(2,6,23,.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,.12), transparent 70%), var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { width: min(1080px, 92vw); margin: 0 auto; }
+    .center { text-align: center; }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      isolation: isolate;
+
+      /* Semi-transparent background with blur */
+      background: color-mix(in srgb, var(--panel), transparent 20%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    }
+
+    /* Explicit theme fallbacks for browsers without color-mix */
+    [data-theme="light"] header { background: rgba(255, 255, 255, 0.8); }
+    [data-theme="dark"]  header { background: rgba(15, 23, 42, 0.8); }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .logo-emoji {
+      font-size: clamp(22px, 1.1rem + 0.6vw, 28px);
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      /* transform: translateY(1px); */ /* optional micro-nudge */
+    }
+
+    .brand-text {
+      font-weight: 700; /* matches your header style */
+      font-size: clamp(18px, 1rem + 0.40vw, 22px);
+      line-height: 1.1;
+      white-space: nowrap; /* keep it on one line */
+    }
+
+    nav a {
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    nav a:hover {
+      background: color-mix(in srgb, var(--brand), transparent 88%);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    /* Smooth scroll for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    section[id] { scroll-margin-top: var(--header-offset, 72px); }
+
+    /* Hero */
+    .hero { padding: 64px 0 30px; position: relative; overflow: clip; }
+    @supports not (overflow: clip) {
+      .hero { overflow: hidden; }
+    }
+    .gradient-ring { position:absolute; inset:-10% -20% auto; height:280px; background: radial-gradient(500px 300px at 20% 10%, color-mix(in srgb, var(--brand), transparent 75%), transparent 70%), radial-gradient(600px 360px at 90% -30%, color-mix(in srgb, var(--brand-2), transparent 75%), transparent 70%); filter: blur(20px); opacity:.8; pointer-events:none; }
+    .kicker { color: var(--muted); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: .2em; }
+    h1 { font-size: clamp(30px, 6vw, 56px); line-height: 1.05; margin:10px 0 12px; }
+    .subtitle { color: var(--muted); font-size: clamp(16px, 2.2vw, 20px); margin: 0 auto 16px; max-width: 800px; }
+
+    .badge-row { display:flex; flex-wrap: wrap; gap:10px; align-items:center; justify-content:center; margin-top: 16px; }
+    .badge {
+      display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius: 999px; border:1px solid var(--border); background: var(--panel); box-shadow: var(--shadow);
+    }
+    .badge .icon { width:18px; height:18px; opacity:.9; }
+
+    .teaser { margin-top: 28px; border:1px solid var(--border); border-radius: 18px; overflow:hidden; background: var(--card); box-shadow: var(--shadow); }
+    .teaser img { width:100%; aspect-ratio: 16 / 9; object-fit: cover; display:block; }
+
+    /* Sections */
+    section { padding: 48px 0; }
+    section .section-title { font-size: 28px; margin: 0 0 8px; }
+    .section-muted { color: var(--muted); margin-top: 0; }
+
+    /* Abstract paragraph formatting */
+    #abstract .card p {
+      text-align: justify;
+      text-justify: inter-word; /* improve spacing in some browsers */
+    }
+    @supports (hyphens: auto) {
+      #abstract .card p { hyphens: auto; }
+    }
+
+    .grid { display:grid; gap:20px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    @media (max-width: 860px){ .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; } }
+
+    .card { border:1px solid var(--border); background: var(--panel); box-shadow: var(--shadow); border-radius: 16px; padding: 18px; }
+
+    /* Link tiles */
+    .tile { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px; border-radius:14px; border:1px dashed var(--border); background: color-mix(in srgb, var(--panel), transparent 10%); }
+    .tile strong { display:block; font-size:16px; }
+    .tile small { color: var(--muted); }
+
+    /* Lists */
+    .checklist { list-style: none; padding: 0; margin: 0; display:grid; gap:10px; }
+    .checklist li { display:grid; grid-template-columns: 20px 1fr; column-gap:10px; align-items:start; }
+    .check { width:20px; height:20px; border-radius:999px; background: color-mix(in srgb, var(--success), transparent 70%); border:1px solid var(--border); display:grid; place-items:center; font-size:12px; line-height:1; }
+    @supports (translate: 0) { .check { translate: 0 -0.5px; } }
+    @supports not (translate: 0) { .check { transform: translateY(-1px); } }
+    .checklist li > .check { align-self: start; }
+
+    /* Table */
+    table { width:100%; border-collapse: collapse; font-size: 14.5px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+    thead th { text-align:left; color: var(--muted); font-weight:600; }
+    tbody tr:hover { background: color-mix(in srgb, var(--panel), transparent 8%); }
+
+    /* Center all columns except the first */
+    table thead th, table tbody td { text-align: center; }
+    table thead th:first-child { text-align: left; }
+    table tbody td:first-child:not([colspan]) { text-align: left; }
+
+    /* Underline helper for second-best values */
+    .u { text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Gallery */
+    .gallery { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; }
+    .gallery img { width:100%; height:170px; object-fit:cover; border-radius:12px; border:1px solid var(--border); cursor: zoom-in; }
+    .lightbox { position:fixed; inset:0; display:none; place-items:center; background: rgba(0,0,0,.6); backdrop-filter: blur(6px); z-index: 100; }
+    .lightbox img { max-width:90vw; max-height:85vh; border-radius:16px; box-shadow: var(--shadow); }
+
+    /* Code block */
+    pre { background: var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; overflow:auto; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    .copy-btn {
+      margin-top: 10px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      color: var(--text);
+      background: color-mix(in srgb, var(--brand), transparent 90%);
+      border: 1px solid color-mix(in srgb, var(--brand), transparent 70%);
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .copy-btn:hover {
+      background: color-mix(in srgb, var(--brand), transparent 82%);
+      border-color: color-mix(in srgb, var(--brand), transparent 60%);
+      text-decoration: none;
+    }
+    .copy-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--ring);
+    }
+    .copy-btn:active { transform: translateY(0.5px); }
+
+    /* Fallbacks for browsers without color-mix */
+    [data-theme="light"] .copy-btn { background: rgba(3,105,161,0.08); border-color: rgba(3,105,161,0.25); }
+    [data-theme="light"] .copy-btn:hover { background: rgba(3,105,161,0.18); border-color: rgba(3,105,161,0.35); }
+    [data-theme="dark"]  .copy-btn { background: rgba(14,165,233,0.12); border-color: rgba(14,165,233,0.35); }
+    [data-theme="dark"]  .copy-btn:hover { background: rgba(14,165,233,0.22); border-color: rgba(14,165,233,0.45); }
+
+    /* Footer */
+    footer { padding: 40px 0 60px; color: var(--muted); border-top: 1px solid var(--border); }
+    .footer-row { display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap: wrap; }
+
+    /* Authors & Affiliations (Hero) */
+    .authors { margin-top: 18px; }
+    .author-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px 14px; justify-content: center; }
+    .author-list li { display: inline-flex; align-items: baseline; gap: 6px; }
+    .author-list a { color: var(--text); font-weight: 600; }
+    .author-list a:hover { text-decoration: underline; }
+    
+    /* Fix superscript alignment for author affiliations */
+    .author-list sup {
+      color: var(--muted);
+      font-size: 0.65em;     /* smaller than name */
+      vertical-align: super; /* push above baseline */
+      line-height: 0;        /* tighten spacing */
+      margin-left: 2px;      /* tiny gap from name */
+    }
+
+    /* Optional: nudge a touch higher if your font renders low */
+    @supports (translate: 0) {
+      .author-list sup { translate: 0 -0.15em; }
+    }
+    .equal, .corresponding { font-size: 12px; color: var(--muted); margin-left: 2px; }
+    .affiliations { margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; color: var(--muted); font-size: 14px; }
+    .author-notes { margin-top: 6px; color: var(--muted); font-size: 12.5px; }
+    .author-notes .sep { opacity: .6; margin: 0 8px; }
+
+    /* === Dataset Preview (minimal & used) === */
+
+    /* Q/A text */
+    .qa .q, .qa .a { margin: 10px 0 0; }
+    .qa .q { color: var(--text); }
+    .qa .a { color: var(--muted); }
+
+    /* Segmented tabs — full-width, 4 equal buttons */
+    .ds-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;                          /* no gaps so borders meet cleanly */
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;                /* keep rounded corners */
+      background: color-mix(in srgb, var(--panel), transparent 12%);
+      box-shadow: var(--shadow);
+    }
+
+    /* Tab buttons */
+    .tab {
+      appearance: none;
+      border: none;
+      border-right: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel), transparent 88%);
+      color: var(--text);
+      padding: 10px 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s ease, box-shadow .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .tab:last-child { border-right: none; }
+
+    .tab:hover {
+      background: color-mix(in srgb, var(--panel), transparent 82%);
+      border-color: color-mix(in srgb, var(--border), transparent 25%);
+    }
+
+    /* Selected tab */
+    .tab[aria-selected="true"] {
+      background: var(--panel);
+      border-color: color-mix(in srgb, var(--brand), transparent 55%);
+      box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--brand), transparent 35%); /* subtle accent line */
+    }
+
+    /* Accessibility */
+    .tab:focus-visible { outline: none; box-shadow: var(--ring); }
+
+    /* Label with tiny colored dot (replaces old .pill look) */
+    .tab .pill {
+      all: unset;                      /* strip old pill styles */
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      cursor: inherit;
+    }
+    .tab .pill::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      opacity: .95;
+    }
+    .tab .pill.irrel::before   { background: color-mix(in srgb, var(--warning),  transparent 20%); }
+    .tab .pill.inexist::before { background: color-mix(in srgb, var(--brand-2),  transparent 20%); }
+    .tab .pill.contra::before  { background: color-mix(in srgb, #ef4444,        transparent 20%); }
+    .tab .pill.normal::before  { background: color-mix(in srgb, var(--success), transparent 20%); }
+
+    /* Panel spacing */
+    [role="tabpanel"] { margin-top: 6px; }
+
+    /* Focus/selected state: only a bottom accent line */
+    .tab:focus-visible {
+      outline: none;
+      box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--brand), transparent 25%);
+    }
+
+    /* Selected tab: bottom accent only; don't brighten side borders */
+    .tab[aria-selected="true"] {
+      background: var(--panel);
+      border-color: var(--border); /* keep side borders neutral */
+      box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--brand), transparent 35%);
+    }
+
+    /* Optional: on hover, don't accent sides—just a slight bg change */
+    .tab:hover {
+      background: color-mix(in srgb, var(--panel), transparent 82%);
+      border-color: var(--border);
+    }
+
+    /* Two-column layout (figure left, text right) */
+    .ds-layout { display:grid; grid-template-columns: min(45vw, 480px) 1fr; gap:16px; align-items:start; }
+    .ds-left { order: 2; }
+    .ds-side { order: 1; }
+    @media (max-width: 980px){
+      .ds-layout { grid-template-columns: 1fr; }
+      .ds-left { order: 1; }
+      .ds-side { order: 2; }
+    }
+
+    /* Sticky figure + image styling */
+    .ds-side { position: sticky; top: calc(var(--header-offset, 72px) + 18px); }
+    .ds-side .ds-teaser img {
+      width: 100%; height: auto;
+      border-radius:12px; border:1px solid var(--border); background: var(--card);
+    }
+
+    /* Score pills (Correct/Incorrect) */
+    .score-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .score-pill.correct   { background-color: #d4edda; color: #155724; }
+    .score-pill.incorrect { background-color: #f8d7da; color: #721c24; }
+
+    /* Dashed box for the whole QA group */
+    .qa-block {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;  /* final choice */
+      background: color-mix(in srgb, var(--panel), transparent 8%);
+    }
+    .qa-block p { margin: 6px 0; }
+    .qa-block p:first-child { margin-top: 0; }
+    .qa-block p:last-child  { margin-bottom: 0; }
+
+    /* Tighten spacing around tabs/panels (final values) */
+    .ds-tabs { margin-top: 8px; }
+    [role="tabpanel"] { margin-top: 6px; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="brand">
+        <span class="logo-emoji" aria-hidden="true">🌀</span>
+        <span class="brand-text">ChartHal</span>
+      </div>
+      <nav class="nav">
+        <a href="#abstract">Abstract</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#results">Results</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#bibtex">BibTeX</a>
+        <a href="#team">Team</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌓</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="gradient-ring" aria-hidden="true"></div>
+      <div class="container center">
+        <div class="kicker">ArXiv Pre-Print · 2025</div>
+        <h1>🌀 ChartHal</h1>
+        <p class="subtitle">A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding</p>
+
+        <!-- Authors + Affiliations -->
+        <div class="authors">
+          <ul class="author-list">
+            <li><b>Xingqi Wang<sup>1<span class="equal">∗</span></sup></b></li>
+            <li><b>Yiming Cui<sup>2<span class="corresponding" title="Corresponding authors">✉</span></sup></b></li>
+            <li><b>Xin Yao<sup>2</sup></b></li>
+            <li><b>Shijin Wang<sup>2</sup></b></li>
+            <li><b>Guoping Hu<sup>2</sup></b></li>
+            <li><b>Jia Jia<sup>1,3,4<span class="corresponding" title="Corresponding authors">✉</span></sup></b></li>
+          </ul>
+          <div class="affiliations">
+            <span><sup>1</sup> Dept. of Computer Science and Technology, Tsinghua University </span>
+            <span><sup>2</sup> State Key Laboratory of Cognitive Intelligence, iFLYTEK </span>
+            <span><sup>3</sup> Beijing National Research Center for Information Science and Technology </span>
+            <span><sup>4</sup> Key Laboratory of Pervasive Computing, Ministry of Education </span>
+          </div>
+          <div class="author-notes">
+            <span class="equal">∗</span> Work done during internship at iFLYTEK <span class="sep">·</span> <span class="corresponding">✉</span> Email correspondings
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <a class="badge" href="#paper">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V4a2 2 0 0 1 2-2h8.5L20 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14.5 2V6.5H19"/></svg>
+            <span><strong>Paper</strong></span>
+          </a>
+          <a class="badge" href="https://github.com/ymcui/ChartHal" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77 5.44 5.44 0 0 0 3.5 8.5c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span><strong>Code</strong></span>
+          </a>
+          <a class="badge" href="https://huggingface.co/datasets/hfl/ChartHal">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4.418 0-8 1.79-8 4v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7c0-2.21-3.582-4-8-4Z"/><path d="M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4"/></svg>
+            <span><strong>Data</strong></span>
+          </a>
+        </div>
+
+        <div class="teaser">
+          <!-- Put your teaser image/video at assets/teaser.jpg -->
+          <img src="assets/project-teaser-gpt5.jpg" alt="Project teaser image" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Abstract (standalone) -->
+    <section id="abstract">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Abstract</h2>
+          <p>
+            Large Vision-Language Models (LVLMs) have demonstrated remarkable capabilities in visual understanding and natural language generation. However, chart comprehension remains a particularly challenging task due to the complex structure and high information density of charts, with hallucination phenomena posing significant obstacles for real-world deployment. While existing research has extensively studied hallucinations in general visual tasks and chart comprehension benchmarks focus on answer correctness, there lacks systematic investigation of hallucination phenomena specifically in chart understanding tasks. To address this gap, we propose a novel benchmark designed to analyze hallucination phenomena in LVLMs during chart comprehension. We develop a comprehensive taxonomy categorizing various scenarios that trigger model hallucinations and construct a human-validated chart comprehension dataset based on this framework. Through extensive evaluation of state-of-the-art LVLMs, our results reveal that current models still suffer from severe hallucination problems in chart comprehension tasks, particularly when processing complex charts. Our work represents the first systematic study of chart comprehension hallucinations and highlights the urgent need for further research on mitigation strategies in this domain.
+          </p>
+          <ul class="checklist">
+            <li><span class="check">✓</span><span class="check-text">Introduces <strong>ChartHal</strong>, a benchmark targeting hallucinations in chart understanding.</span></li>
+            <li><span class="check">✓</span><span class="check-text">Provides a fine-grained taxonomy and a <em>human-validated</em> chart dataset aligned to it.</span></li>
+            <li><span class="check">✓</span><span class="check-text">Goes beyond accuracy with metrics for hallucination <em>rate</em> and <em>severity</em>.</span></li>
+            <li><span class="check">✓</span><span class="check-text">Finds persistent hallucinations in SOTA LVLMs, especially on complex charts; calls for targeted mitigation.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dataset Preview -->
+    <section id="dataset">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Dataset Preview</h2>
+          <p class="section-muted">
+            Four categories in <strong>ChartHal</strong>: <em>Irrelevant</em>, <em>Inexist</em>, <em>Contradictory</em>, and <em>Normal</em>. Along with question and reference answer, we also provide GPT-5 response. Please click each tab to explore the dataset. 
+          </p>
+
+          <div class="ds-layout">
+            <div class="ds-left">
+              <!-- Tabs -->
+              <div class="ds-tabs" role="tablist" aria-label="Dataset categories">
+                <button class="tab" role="tab" id="tab-irrel" aria-selected="true" aria-controls="panel-irrel"><span class="pill irrel">Irrelevant</span></button>
+                <button class="tab" role="tab" id="tab-inexist" aria-selected="false" aria-controls="panel-inexist"><span class="pill inexist">Inexist</span></button>
+                <button class="tab" role="tab" id="tab-contra" aria-selected="false" aria-controls="panel-contra"><span class="pill contra">Contradictory</span></button>
+                <button class="tab" role="tab" id="tab-normal" aria-selected="false" aria-controls="panel-normal"><span class="pill normal">Normal</span></button>
+              </div>
+
+              <!-- Panels -->
+              <div id="panel-irrel" role="tabpanel" tabindex="0" aria-labelledby="tab-irrel">
+                <div class="qa-block">
+                  <p class="q"><strong>Question:</strong> Based on the positions of the ap, sm, fi, and ni markers across the three λL curves, which group experienced the highest average monthly Twitter follower growth over the period represented in the chart?</p>
+                  <p class="a"><strong>Reference:</strong> The chart does not contain any information about Twitter follower counts or their growth rates. Therefore, no inference about average monthly Twitter follower growth can be made from this data.</p>
+                  <p class="m"><strong>GPT-5:</strong> fi. The fi markers move the farthest upward/right across the three λL curves, indicating the largest increase in monthly follower growth over the period. <span class="score-pill incorrect">❌ Incorrect</span></p>
+                </div>
+              </div>
+
+              <div id="panel-inexist" role="tabpanel" tabindex="0" aria-labelledby="tab-inexist" hidden>
+                <div class="qa-block">
+                  <p class="q"><strong>Question:</strong> What temperature value is associated with the star-shaped (sm) marker in the red λL = 0.20 series?</p>
+                  <p class="a"><strong>Reference:</strong> The chart does not show any temperature data, so this information cannot be determined from the figure.</p>
+                  <p class="m"><strong>GPT-5:</strong> I can’t tell from this figure. The plot only shows WH vs WL with series by λL and symbol types; it doesn’t include temperature labels or a colorbar. If you have the temperature mapping for each marker, please share it and I’ll read off the value. <span class="score-pill correct">✅ Correct</span></p>
+                </div>
+              </div>
+
+              <div id="panel-contra" role="tabpanel" tabindex="0" aria-labelledby="tab-contra" hidden>
+                <div class="qa-block">
+                  <p class="q"><strong>Question:</strong> According to the chart, for λL = 0.20 the “fi” marker (×) is shown at WH = 0.10 where WL appears to be about 0.05. What is the low-quality work value WL at that marker?</p>
+                  <p class="a"><strong>Reference:</strong> The premise is incorrect—the “fi” marker for λL = 0.20 is actually plotted at WH = 0.025 (answers in the range [0.015, 0.035] are ACCEPTABLE), not 0.10, and its true WL value is approximately 0.048 (answers in the range [0.045, 0.050] are ACCEPTABLE).</p>
+                  <p class="m"><strong>GPT-5:</strong> Approximately 0.05 (about 0.048). <span class="score-pill incorrect">❌ Incorrect</span></p>
+                </div>
+              </div>
+
+              <div id="panel-normal" role="tabpanel" tabindex="0" aria-labelledby="tab-normal" hidden>
+                <div class="qa-block">
+                  <p class="q"><strong>Question:</strong> For λL = 0.20 (the red dotted series), what is the W̄L value of the 'fi' data point (× marker)?</p>
+                  <p class="a"><strong>Reference:</strong> Approximately 0.048 (answers in the range [0.045, 0.050] are ACCEPTABLE).</p>
+                  <p class="m"><strong>GPT-5:</strong> Approximately 0.05. <span class="score-pill correct">✅ Correct</span></p>
+                </div>
+              </div>
+
+            </div>
+
+            <aside class="ds-side">
+              <div class="ds-teaser">
+                <img src="assets/example_figure.jpg" alt="Dataset example figure used across all categories" />
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    
+
+    <!-- Results -->
+    <section id="results">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Results</h2>
+          <p class="section-muted">The followings are the performance of different question type and chart–question relation on ChatHal. Scores are scaled to [0, 100]. Best values are in <strong>bold</strong>, second-best are <span class="u">underlined</span>.</p>
+          <table>
+            <thead>
+              <tr>
+                <th rowspan="2">Model</th>
+                <th colspan="3"><strong>Question Type</strong></th>
+                <th colspan="4"><strong>Chart–Question Relation</strong></th>
+                <th rowspan="2"><strong>Overall</strong></th>
+              </tr>
+              <tr>
+                <th>Desc.</th>
+                <th>Reason</th>
+                <th>Open</th>
+                <th>Irrel.</th>
+                <th>Inexist</th>
+                <th>Contra.</th>
+                <th>Normal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="9" style="text-align:center; font-weight:600; color: var(--muted);">Proprietary Multimodal Large Language Models</td>
+              </tr>
+              <tr>
+                <td>Gemini 2.5 Pro</td>
+                <td><strong>60.31</strong></td>
+                <td><span class="u">50.31</span></td>
+                <td><span class="u">36.69</span></td>
+                <td><span class="u">36.80</span></td>
+                <td><span class="u">52.62</span></td>
+                <td><strong>49.52</strong></td>
+                <td>58.58</td>
+                <td><span class="u">49.34</span></td>
+              </tr>
+              <tr>
+                <td>GPT-5 (high)</td>
+                <td>43.34</td>
+                <td>36.65</td>
+                <td>22.97</td>
+                <td>20.82</td>
+                <td>29.07</td>
+                <td>19.52</td>
+                <td>70.71</td>
+                <td>34.46</td>                                
+              </tr>
+              <tr>
+                <td>GPT-5</td>
+                <td>42.82</td>
+                <td>40.06</td>
+                <td>20.17</td>
+                <td>23.05</td>
+                <td>30.81</td>
+                <td>16.67</td>
+                <td>67.78</td>
+                <td>34.37</td>
+              </tr>
+              <tr>
+                <td>GPT-4o 2024-11-20</td>
+                <td>40.47</td>
+                <td>36.02</td>
+                <td>20.73</td>
+                <td>27.88</td>
+                <td>36.92</td>
+                <td>6.67</td>
+                <td>53.97</td>
+                <td>32.49</td>
+              </tr>
+              <tr>
+                <td>GPT-5-mini</td>
+                <td>34.20</td>
+                <td>24.53</td>
+                <td>21.57</td>
+                <td>8.18</td>
+                <td>15.99</td>
+                <td>9.05</td>
+                <td>79.92</td>
+                <td>27.02</td>
+              </tr>
+              <tr>
+                <td>GPT-5-mini (high)</td>
+                <td>33.42</td>
+                <td>25.78</td>
+                <td>20.45</td>
+                <td>8.55</td>
+                <td>15.99</td>
+                <td>11.90</td>
+                <td>75.73</td>
+                <td>26.74</td>
+              </tr>
+              <tr>
+                <td>GPT-5-nano (high)</td>
+                <td>33.68</td>
+                <td>20.19</td>
+                <td>19.89</td>
+                <td>10.41</td>
+                <td>17.73</td>
+                <td>5.24</td>
+                <td>69.04</td>
+                <td>24.95</td>
+              </tr>
+              <tr>
+                <td>GPT-5-nano</td>
+                <td>32.38</td>
+                <td>16.15</td>
+                <td>19.33</td>
+                <td>7.81</td>
+                <td>15.99</td>
+                <td>5.24</td>
+                <td>66.11</td>
+                <td>23.07</td>
+              </tr>
+              <tr>
+                <td>o4-mini (high)</td>
+                <td>34.46</td>
+                <td>23.60</td>
+                <td>9.52</td>
+                <td>10.78</td>
+                <td>14.53</td>
+                <td>3.33</td>
+                <td><span class="u">65.27</span></td>
+                <td>22.79</td>
+              </tr>
+              <tr>
+                <td>o4-mini</td>
+                <td>32.90</td>
+                <td>22.67</td>
+                <td>10.92</td>
+                <td>11.52</td>
+                <td>12.21</td>
+                <td>1.90</td>
+                <td><strong>67.36</strong></td>
+                <td>22.41</td>
+              </tr>
+              <tr>
+                <td colspan="9" style="text-align:center; font-weight:600; color: var(--muted);">Open-Source Multimodal Large Language Models</td>
+              </tr>
+              <tr>
+                <td>Llama 3.2 11B Vision Instruct</td>
+                <td>37.60</td>
+                <td>20.19</td>
+                <td>15.69</td>
+                <td>29.37</td>
+                <td>28.49</td>
+                <td>0.00</td>
+                <td>36.82</td>
+                <td>24.95</td>
+              </tr>
+              <tr>
+                <td>InternVL 2.5 4B</td>
+                <td>19.58</td>
+                <td>9.63</td>
+                <td>8.12</td>
+                <td>4.83</td>
+                <td>11.34</td>
+                <td>0.00</td>
+                <td>34.73</td>
+                <td>12.71</td>
+              </tr>
+              <tr>
+                <td>InternVL 2.5 8B</td>
+                <td>17.23</td>
+                <td>8.39</td>
+                <td>10.64</td>
+                <td>3.35</td>
+                <td>6.40</td>
+                <td>0.00</td>
+                <td>41.84</td>
+                <td>12.34</td>
+              </tr>
+              <tr>
+                <td>InternVL 2.5 38B</td>
+                <td>28.72</td>
+                <td>18.32</td>
+                <td>10.36</td>
+                <td>10.04</td>
+                <td>21.80</td>
+                <td>0.00</td>
+                <td>43.51</td>
+                <td>19.40</td>
+              </tr>
+              <tr>
+                <td>InternVL 2.5 78B</td>
+                <td>31.33</td>
+                <td>17.08</td>
+                <td>14.85</td>
+                <td>13.75</td>
+                <td>26.45</td>
+                <td>0.00</td>
+                <td>41.84</td>
+                <td>21.47</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5VL 3B Instruct</td>
+                <td>13.05</td>
+                <td>4.04</td>
+                <td>7.84</td>
+                <td>0.74</td>
+                <td>0.87</td>
+                <td>0.00</td>
+                <td>35.98</td>
+                <td>8.57</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5VL 7B Instruct</td>
+                <td>38.38</td>
+                <td>25.47</td>
+                <td>12.32</td>
+                <td>25.65</td>
+                <td>25.29</td>
+                <td>1.90</td>
+                <td>47.28</td>
+                <td>25.71</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5VL 32B Instruct</td>
+                <td>36.81</td>
+                <td>25.47</td>
+                <td>8.68</td>
+                <td>21.56</td>
+                <td>25.29</td>
+                <td>1.43</td>
+                <td>44.35</td>
+                <td>23.92</td>
+              </tr>
+              <tr>
+                <td>Qwen 2.5VL 72B Instruct</td>
+                <td><span class="u">58.49</span></td>
+                <td><strong>59.63</strong></td>
+                <td><strong>44.82</strong></td>
+                <td><strong>65.06</strong></td>
+                <td><strong>69.77</strong></td>
+                <td><span class="u">19.05</span></td>
+                <td>50.63</td>
+                <td><strong>54.24</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery / Figures -->
+    <section id="gallery">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Gallery</h2>
+          <p class="section-muted">Teaser figures, qualitative examples, or a short demo clip. Use images below; click to zoom.</p>
+          <div class="gallery">
+            <img src="assets/figure1.png" alt="Figure 1 placeholder" />
+            <img src="assets/table1.png" alt="Figure 2 placeholder" />
+            <img src="assets/table2.png" alt="Figure 3 placeholder" />
+            <!---<img src="assets/table4.jpg" alt="Figure 4 placeholder" />--->
+          </div>
+        </div>
+      </div>
+      <div class="lightbox" id="lightbox"><img alt="Zoomed image" /></div>
+    </section>
+
+    <!-- BibTeX -->
+    <section id="bibtex">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">BibTeX</h2>
+          <p class="section-muted">Please cite our work if you find it helpful.</p>
+          <pre id="bibtexBlock"><code>@article{charthal,
+      title={{ChartHal}: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding}, 
+      author={Wang, Xingqi and Cui, Yiming and Yao, Xin and Wang, Shijin and Hu, Guoping and Jia, Jia},
+      year={2025},
+      eprint={2508.xxxxx},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}</code></pre>
+          <button class="copy-btn" id="copyBib">Copy BibTeX</button>
+        </div>
+
+        <!-- News / Timeline -->
+        
+      </div>
+    </section>
+
+
+    <!-- Team -->
+    <section id="team">
+      <div class="container">
+        <h2 class="section-title">Team</h2>
+        <p class="section-muted">ChartHal is completed by a diverse team of researchers from Tsinghua University and iFLYTEK Research.</p>
+        <div class="grid cols-3">
+          
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/xqwang.jpg" alt="Person 1" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Xingqi Wang</strong>
+                <div>Tsinghua University</div>
+                <div style="display:flex; gap:10px; font-size:14px; margin-top:6px;">
+                  <a href="https://github.com/achernarwang">GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/ymcui.jpg" alt="Person 2" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Yiming Cui</strong>
+                <div>iFLYTEK Research</div>
+                <div style="display:flex; gap:10px; font-size:14px; margin-top:6px;">
+                  <a href="http://ymcui.com/">Homepage</a>
+                  <a href="https://github.com/ymcui">GitHub</a>
+                  <a href="https://scholar.google.com/citations?user=Xl53m0QAAAAJ">Scholar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/xinyao.jpg" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Xin Yao</strong>
+                <div>iFLYTEK Research</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/sjwang.jpg" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Shijin Wang</strong>
+                <div>iFLYTEK Research</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/gphu.jpg" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Guoping Hu</strong>
+                <div>iFLYTEK Research</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; gap:14px; align-items:center;">
+              <img src="assets/jiajia.jpg" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <div>
+                <strong>Jia Jia</strong>
+                <div>Tsinghua University</div>
+                <div style="display:flex; gap:10px; font-size:14px; margin-top:6px;">
+                  <a href="http://hcsi.cs.tsinghua.edu.cn/">Homepage</a>
+                  <a href="https://scholar.google.com/citations?user=RYhh3FsAAAAJ">Scholar</a>
+                </div>
+              </div>
+            </div>
+          </div>          
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Acknowledgements / Footer note 
+    <section>
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Acknowledgements</h2>
+          <p class="section-muted">Thank collaborators, funding sources, compute grants, etc. </p>
+        </div>
+      </div>
+    </section>-->
+
+
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>
+        © <span id="year"></span> ChartHal · <a href="LICENSE" target="_blank">License</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Minimal interactivity (no dependencies) -->
+  <script>
+    // Theme toggle with localStorage
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    if (stored) document.documentElement.setAttribute('data-theme', stored);
+    toggle?.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Ensure content isn't hidden behind the fixed header
+    const headerEl = document.querySelector('header');
+    function setHeaderOffset() {
+      if (!headerEl) return;
+      document.body.style.paddingTop = headerEl.offsetHeight + 'px';
+      document.documentElement.style.setProperty('--header-offset', headerEl.offsetHeight + 'px');
+    }
+    window.addEventListener('load', setHeaderOffset);
+    window.addEventListener('resize', setHeaderOffset);
+
+    // Smooth-scroll for in-page nav links (with fixed-header offset)
+    document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        try { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        catch (_) { window.location.hash = href; }
+      });
+    });
+
+    // Dataset tabs (single shared figure)
+    (function(){
+      const tablist = document.querySelector('#dataset .ds-tabs');
+      if (!tablist) return;
+      const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+      const panels = Array.from(document.querySelectorAll('#dataset [role="tabpanel"]'));
+
+      function activate(tab){
+        tabs.forEach(t => t.setAttribute('aria-selected','false'));
+        tab.setAttribute('aria-selected','true');
+        const targetId = tab.getAttribute('aria-controls');
+        panels.forEach(p => { p.hidden = (p.id !== targetId); });
+        // Keep focus on the active tab (better for keyboard users)
+        tab.focus({ preventScroll: true });
+      }
+
+      tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => activate(tab));
+        tab.addEventListener('keydown', (e) => {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          e.preventDefault();
+          const dir = e.key === 'ArrowRight' ? 1 : -1;
+          const next = tabs[(i + dir + tabs.length) % tabs.length];
+          next.focus();
+          activate(next);
+        });
+      });
+
+      // Ensure initial state
+      const initial = document.getElementById('tab-irrel');
+      if (initial) activate(initial);
+    })();
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy BibTeX
+    const copyBtn = document.getElementById('copyBib');
+    copyBtn?.addEventListener('click', async () => {
+      const text = document.getElementById('bibtexBlock').innerText;
+      try { await navigator.clipboard.writeText(text); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy BibTeX', 1200); }
+      catch(e){ alert('Copy failed.'); }
+    });
+
+    // Simple image lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = lb?.querySelector('img');
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.addEventListener('click', () => { lbImg.src = img.src; lb.style.display = 'grid'; });
+    });
+    lb?.addEventListener('click', () => { lb.style.display = 'none'; lbImg.src = ''; });
+  </script>
+
+  <!-- Schema.org (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "ChartHal: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding",
+    "description": "A benchmark and taxonomy for hallucinations in chart understanding by large vision–language models, with a human-validated dataset and evaluation protocol.",
+    "url": "https://ymcui.com/charthal/",
+    "image": "https://ymcui.com/charthal/assets/og-image.jpg",
+    "datePublished": "2025-08-13",
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "license": "https://raw.githubusercontent.com/ymcui/ChartHal/main/LICENSE",
+    "identifier": "arXiv:2508.xxxxx",
+    "author": [
+      { "@type": "Person", "name": "Xingqi Wang", "affiliation": { "@type": "Organization", "name": "Tsinghua University" } },
+      { "@type": "Person", "name": "Yiming Cui", "affiliation": { "@type": "Organization", "name": "iFLYTEK Research" }, "sameAs": ["http://ymcui.com/", "https://scholar.google.com/citations?user=Xl53m0QAAAAJ", "https://github.com/ymcui"] },
+      { "@type": "Person", "name": "Xin Yao", "affiliation": { "@type": "Organization", "name": "iFLYTEK Research" } },
+      { "@type": "Person", "name": "Shijin Wang", "affiliation": { "@type": "Organization", "name": "iFLYTEK Research" } },
+      { "@type": "Person", "name": "Guoping Hu", "affiliation": { "@type": "Organization", "name": "iFLYTEK Research" } },
+      { "@type": "Person", "name": "Jia Jia", "affiliation": { "@type": "Organization", "name": "Tsinghua University" }, "sameAs": ["http://hcsi.cs.tsinghua.edu.cn/", "https://scholar.google.com/citations?user=RYhh3FsAAAAJ"] }
+    ],
+    "publisher": { "@type": "Organization", "name": "arXiv" },
+    "keywords": ["Chart understanding", "Hallucination", "Vision-language models", "LVLM", "Benchmark", "Multimodal"],
+    "sameAs": [
+      "https://github.com/ymcui/ChartHal",
+      "https://huggingface.co/datasets/hfl/ChartHal"
+    ]
+  }
+  </script>
+
+  <!-- Optional analytics (Plausible). Replace domain or remove. -->
+  <!-- <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script> -->
+</body>
+</html>
