@@ -1,0 +1,57 @@
+{
+    "total_queries": 1062,
+    "total_correct": 337,
+    "overall_score": 31.73,
+    "exceptions": 0,
+    "score_per_type": {
+        "desc": 152,
+        "reason": 105,
+        "open": 80
+    },
+    "score_per_relation": {
+        "irrel": 44,
+        "inexist": 63,
+        "contra": 33,
+        "normal": 197
+    },
+    "score_per_type_relation": {
+        "desc_irrel": 15,
+        "desc_inexist": 44,
+        "desc_contra": 9,
+        "desc_normal": 84,
+        "reason_irrel": 29,
+        "reason_inexist": 17,
+        "reason_contra": 9,
+        "reason_normal": 50,
+        "open_irrel": 0,
+        "open_inexist": 2,
+        "open_contra": 15,
+        "open_normal": 63
+    },
+    "ratio_per_type": {
+        "desc": "152/383=39.69",
+        "reason": "105/322=32.61",
+        "open": "80/357=22.41"
+    },
+    "ratio_per_relation": {
+        "irrel": "44/269=16.36",
+        "inexist": "63/344=18.31",
+        "contra": "33/210=15.71",
+        "normal": "197/239=82.43"
+    },
+    "ratio_per_type_relation": {
+        "desc_irrel": "15/56=26.79",
+        "desc_inexist": "44/151=29.14",
+        "desc_contra": "9/76=11.84",
+        "desc_normal": "84/100=84.00",
+        "reason_irrel": "29/99=29.29",
+        "reason_inexist": "17/105=16.19",
+        "reason_contra": "9/54=16.67",
+        "reason_normal": "50/64=78.12",
+        "open_irrel": "0/114=0.00",
+        "open_inexist": "2/88=2.27",
+        "open_contra": "15/80=18.75",
+        "open_normal": "63/75=84.00"
+    },
+    "latex_line": "39.69 & 32.61 & 22.41 & 16.36 & 18.31 & 15.71 & 82.43 & 31.73"
+}
