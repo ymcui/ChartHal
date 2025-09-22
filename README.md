@@ -124,7 +124,7 @@ If you are using our benchmark in your work, please consider cite:
 ```bibtex
 @article{charthal,
       title={{ChartHal}: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding}, 
-      author={Wang, Xingqi and Cui, Yiming and Yao, Xin and Wang, Shijin and Hu, Guoping and Jia, Jia},
+      author={Wang, Xingqi and Cui, Yiming and Yao, Xin and Wang, Shijin and Hu, Guoping and Qin, Xiaoyu},
       year={2025},
       eprint={2509.xxxxx},
       archivePrefix={arXiv},
