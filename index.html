@@ -464,11 +464,11 @@
         <div class="authors">
           <ul class="author-list">
             <li><b>Xingqi Wang<sup>1<span class="equal">∗</span></sup></b></li>
-            <li><b>Yiming Cui<sup>2<span class="corresponding" title="Corresponding authors">✉</span></sup></b></li>
+            <li><b>Yiming Cui<sup>2<span class="corresponding" title="Corresponding authors">✉️</span></sup></b></li>
             <li><b>Xin Yao<sup>2</sup></b></li>
             <li><b>Shijin Wang<sup>2</sup></b></li>
             <li><b>Guoping Hu<sup>2</sup></b></li>
-            <li><b>Jia Jia<sup>1,3,4<span class="corresponding" title="Corresponding authors">✉</span></sup></b></li>
+            <li><b>Xiaoyu Qin<sup>1,3,4<span class="corresponding" title="Corresponding authors">✉️</span></sup></b></li>
           </ul>
           <div class="affiliations">
             <span><sup>1</sup> Dept. of Computer Science and Technology, Tsinghua University </span>
@@ -477,7 +477,7 @@
             <span><sup>4</sup> Key Laboratory of Pervasive Computing, Ministry of Education </span>
           </div>
           <div class="author-notes">
-            <span class="equal">∗</span> Work done during internship at iFLYTEK <span class="sep">·</span> <span class="corresponding">✉</span> Email correspondings
+            <span class="equal">∗</span> Work done during internship at iFLYTEK <span class="sep">·</span> <span class="corresponding">✉️</span> Email correspondings
           </div>
         </div>
 
@@ -509,7 +509,7 @@
         <div class="card">
           <h2 class="section-title">Abstract</h2>
           <p>
-            Large Vision-Language Models (LVLMs) have demonstrated remarkable capabilities in visual understanding and natural language generation. However, chart comprehension remains a particularly challenging task due to the complex structure and high information density of charts, with hallucination phenomena posing significant obstacles for real-world deployment. While existing research has extensively studied hallucinations in general visual tasks and chart comprehension benchmarks focus on answer correctness, there lacks systematic investigation of hallucination phenomena specifically in chart understanding tasks. To address this gap, we propose a novel benchmark designed to analyze hallucination phenomena in LVLMs during chart comprehension. We develop a comprehensive taxonomy categorizing various scenarios that trigger model hallucinations and construct a human-validated chart comprehension dataset based on this framework. Through extensive evaluation of state-of-the-art LVLMs, our results reveal that current models still suffer from severe hallucination problems in chart comprehension tasks, particularly when processing complex charts. Our work represents the first systematic study of chart comprehension hallucinations and highlights the urgent need for further research on mitigation strategies in this domain.
+            Large Vision-Language Models (LVLMs) have recently demonstrated remarkable progress, yet hallucination remains a critical barrier, particularly in chart understanding, which requires sophisticated perceptual and cognitive abilities as well as rigorous factual accuracy. While prior work has investigated hallucinations and chart comprehension independently, their intersection remains largely unexplored. To address this gap, we present ChartHal, a benchmark that features a fine-grained taxonomy of hallucination scenarios in chart understanding, along with a human-validated dataset of 1,062 samples. Our evaluation shows that state-of-the-art LVLMs suffer from severe hallucinations on ChartHal, including proprietary models such as GPT-5 and o4-mini, which achieve only 34.46% and 22.79% accuracy, respectively. Further analysis reveals that questions involving information absent from or contradictory to charts are especially likely to trigger hallucinations, underscoring the urgent need for more robust mitigation strategies.
           </p>
           <ul class="checklist">
             <li><span class="check">✓</span><span class="check-text">Introduces <strong>ChartHal</strong>, a benchmark targeting hallucinations in chart understanding.</span></li>
@@ -616,7 +616,7 @@
                 <td colspan="9" style="text-align:center; font-weight:600; color: var(--muted);">Proprietary Multimodal Large Language Models</td>
               </tr>
               <tr>
-                <td>Gemini 2.5 Pro</td>
+                <td>Gemini-2.5-Pro</td>
                 <td><strong>60.31</strong></td>
                 <td><span class="u">50.31</span></td>
                 <td><span class="u">36.69</span></td>
@@ -649,7 +649,7 @@
                 <td>34.37</td>
               </tr>
               <tr>
-                <td>GPT-4o 2024-11-20</td>
+                <td>GPT-4o-2024-11-20</td>
                 <td>40.47</td>
                 <td>36.02</td>
                 <td>20.73</td>
@@ -729,7 +729,7 @@
                 <td colspan="9" style="text-align:center; font-weight:600; color: var(--muted);">Open-Source Multimodal Large Language Models</td>
               </tr>
               <tr>
-                <td>Llama 3.2 11B Vision Instruct</td>
+                <td>Llama-3.2-11B-Vision-Instruct</td>
                 <td>37.60</td>
                 <td>20.19</td>
                 <td>15.69</td>
@@ -740,7 +740,7 @@
                 <td>24.95</td>
               </tr>
               <tr>
-                <td>InternVL 2.5 4B</td>
+                <td>InternVL2.5-4B</td>
                 <td>19.58</td>
                 <td>9.63</td>
                 <td>8.12</td>
@@ -751,7 +751,7 @@
                 <td>12.71</td>
               </tr>
               <tr>
-                <td>InternVL 2.5 8B</td>
+                <td>InternVL2.5-8B</td>
                 <td>17.23</td>
                 <td>8.39</td>
                 <td>10.64</td>
@@ -762,7 +762,7 @@
                 <td>12.34</td>
               </tr>
               <tr>
-                <td>InternVL 2.5 38B</td>
+                <td>InternVL2.5-38B</td>
                 <td>28.72</td>
                 <td>18.32</td>
                 <td>10.36</td>
@@ -773,7 +773,7 @@
                 <td>19.40</td>
               </tr>
               <tr>
-                <td>InternVL 2.5 78B</td>
+                <td>InternVL2.5-78B</td>
                 <td>31.33</td>
                 <td>17.08</td>
                 <td>14.85</td>
@@ -784,7 +784,7 @@
                 <td>21.47</td>
               </tr>
               <tr>
-                <td>Qwen 2.5VL 3B Instruct</td>
+                <td>Qwen2.5-VL-3B-Instruct</td>
                 <td>13.05</td>
                 <td>4.04</td>
                 <td>7.84</td>
@@ -795,7 +795,7 @@
                 <td>8.57</td>
               </tr>
               <tr>
-                <td>Qwen 2.5VL 7B Instruct</td>
+                <td>Qwen2.5-VL-7B-Instruct</td>
                 <td>38.38</td>
                 <td>25.47</td>
                 <td>12.32</td>
@@ -806,7 +806,7 @@
                 <td>25.71</td>
               </tr>
               <tr>
-                <td>Qwen 2.5VL 32B Instruct</td>
+                <td>Qwen2.5-VL-32B-Instruct</td>
                 <td>36.81</td>
                 <td>25.47</td>
                 <td>8.68</td>
@@ -817,7 +817,7 @@
                 <td>23.92</td>
               </tr>
               <tr>
-                <td>Qwen 2.5VL 72B Instruct</td>
+                <td>Qwen2.5-VL-72B-Instruct</td>
                 <td><span class="u">58.49</span></td>
                 <td><strong>59.63</strong></td>
                 <td><strong>44.82</strong></td>
@@ -861,7 +861,7 @@
       title={{ChartHal}: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding}, 
       author={Wang, Xingqi and Cui, Yiming and Yao, Xin and Wang, Shijin and Hu, Guoping and Qin, Xiaoyu},
       year={2025},
-      eprint={2508.xxxxx},
+      eprint={2509.xxxxx},
       archivePrefix={arXiv},
       primaryClass={cs.CL}
 }</code></pre>
@@ -903,7 +903,7 @@
                 <div style="display:flex; gap:10px; font-size:14px; margin-top:6px;">
                   <a href="http://ymcui.com/">Homepage</a>
                   <a href="https://github.com/ymcui">GitHub</a>
-                  <a href="https://scholar.google.com/citations?user=Xl53m0QAAAAJ">Scholar</a>
+                  <a href="https://scholar.google.com/citations?user=Xl53m0QAAAAJ">GoogleScholar</a>
                 </div>
               </div>
             </div>
@@ -941,10 +941,14 @@
 
           <div class="card">
             <div style="display:flex; gap:14px; align-items:center;">
-              <img src="assets/placeholder_avatar.png" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
+              <img src="assets/xyqin.jpg" alt="Person 3" style="width:64px; height:64px; border-radius:14px; border:1px solid var(--border); object-fit:cover;"/>
               <div>
                 <strong>Xiaoyu Qin</strong>
                 <div>Tsinghua University</div>
+                <div style="display:flex; gap:10px; font-size:14px; margin-top:6px;">
+                  <a href="https://chengcheng-qin.github.io/">Homepage</a>
+                  <a href="https://scholar.google.com/citations?user=3WLGlb4AAAAJ">GoogleScholar</a>
+                </div>
               </div>
             </div>
           </div>          
