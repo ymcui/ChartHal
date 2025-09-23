@@ -5,6 +5,7 @@
 We develop a comprehensive taxonomy categorizing various scenarios that trigger model hallucinations and construct a **human-validated** chart comprehension dataset based on this framework. Our experimental results show that current SOTA VLMs generally perform poorly when handling hallucinations in chart understanding, demonstrating that ChatHal is a challenging yet valuable resource for advancing the field.
 
 - 🌀 Project Page: http://ymcui.com/ChartHal/ 
+- 📄 Paper: https://arxiv.org/abs/2509.17481
 - 🤗 Hugging Face: https://huggingface.co/datasets/hfl/ChartHal
 
 ## Dataset
@@ -119,14 +120,14 @@ Showing the total number of queries, correct responses, and overall score for th
 
 ### Citation
 
-If you are using our benchmark in your work, please consider cite:
+If you are using our benchmark in your work, please consider citeing the following paper.
 
 ```bibtex
 @article{charthal,
-      title={{ChartHal}: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Scientific Chart Understanding}, 
+      title={{ChartHal}: A Fine-grained Framework Evaluating Hallucination of Large Vision Language Models in Chart Understanding}, 
       author={Wang, Xingqi and Cui, Yiming and Yao, Xin and Wang, Shijin and Hu, Guoping and Qin, Xiaoyu},
       year={2025},
-      eprint={2509.xxxxx},
+      eprint={2509.17481},
       archivePrefix={arXiv},
       primaryClass={cs.CL}
 }
