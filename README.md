@@ -76,7 +76,7 @@ python generate.py \
 Params:
 - `data_file`: Path to the input data file (JSON format).
 - `model_id`: Path to the open-source model (e.g., `/content/qwen2.5-vl-7b-inst`).
-- `model_type`: The type of the model (e.g., `qwen25vl`, `internvl25`, `llama32v`).
+- `model_type`: The type of the model (e.g., `qwen25vl`, `internvl25`, `llama32v`, `qwen3vl`).
 - `save_dir`: Directory to save the generated responses.
 
 After the inference, the response file will be saved at `results/qwen2.5-vl-7b-inst/response.json`.
