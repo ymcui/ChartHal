@@ -93,7 +93,7 @@ def generate_resp_internvl25(model_id: str, eval_data: dict):
     torch.set_grad_enabled(False)
     model = AutoModel.from_pretrained(
         model_id,
-        torch_dtype=torch.bfloat16,
+        dtype=torch.bfloat16,
         attn_implementation="sdpa", # or flash_attention_2
         device_map="auto",
         trust_remote_code=True

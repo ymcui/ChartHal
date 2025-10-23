@@ -1,10 +1,9 @@
 from PIL import Image
-from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
-from qwen_vl_utils import process_vision_info
+from transformers import Qwen3VLMoeForConditionalGeneration, Qwen3VLForConditionalGeneration, AutoProcessor
 from tqdm import tqdm
 import torch
 
-def generate_resp_qwen25vl(model_id: str, eval_data: dict):
+def generate_resp_qwen3vl(model_id: str, eval_data: dict):
     items = eval_data.values() if isinstance(eval_data, dict) else eval_data
     input_data_list = []
     for item in items:
@@ -17,13 +16,17 @@ def generate_resp_qwen25vl(model_id: str, eval_data: dict):
 
     # init model
     torch.set_grad_enabled(False)
-    model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+    if ("30b" in model_id.lower()) or ("235b" in model_id.lower()):
+        model_loader = Qwen3VLMoeForConditionalGeneration 
+    else:
+        model_loader = Qwen3VLForConditionalGeneration
+    model = model_loader.from_pretrained(
         model_id,
         dtype=torch.bfloat16,
         attn_implementation="flash_attention_2",
         device_map="auto",
     ).eval()
-    processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True) #, use_fast=True)
+    processor = AutoProcessor.from_pretrained(model_id)
 
     for i in tqdm(range(0, len(input_data_list)), ncols=100):
         sample = input_data_list[i]
@@ -37,13 +40,11 @@ def generate_resp_qwen25vl(model_id: str, eval_data: dict):
                     ]
         }]
 
-        text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        image_inputs, video_inputs = process_vision_info(messages)
-        inputs = processor(text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt").to(model.device)
+        inputs = processor.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_dict=True, return_tensors="pt").to(model.device)
 
         generated_ids = model.generate(**inputs, max_new_tokens=1024, do_sample=False)
-        generated_ids = generated_ids[:, inputs['input_ids'].shape[1]:]
-        response = processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+        generated_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)]
+        response = processor.batch_decode(generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
         sample["response"] = response.strip()
         

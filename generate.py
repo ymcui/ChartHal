@@ -30,6 +30,9 @@ if __name__ == "__main__":
     if args.model_type == "qwen25vl":
         from models.qwen25vl import generate_resp_qwen25vl
         eval_results = generate_resp_qwen25vl(args.model_id, eval_data)
+    elif args.model_type == "qwen3vl":
+        from models.qwen3vl import generate_resp_qwen3vl
+        eval_results = generate_resp_qwen3vl(args.model_id, eval_data)
     elif args.model_type == "internvl25":
         from models.internvl25 import generate_resp_internvl25
         eval_results = generate_resp_internvl25(args.model_id, eval_data)

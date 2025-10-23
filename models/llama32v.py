@@ -18,7 +18,7 @@ def generate_resp_llama32v(model_id: str, eval_data: dict):
     torch.set_grad_enabled(False)
     model = MllamaForConditionalGeneration.from_pretrained(
         model_id,
-        torch_dtype=torch.bfloat16,
+        dtype=torch.bfloat16,
         device_map="auto"
     ).eval()
     processor = AutoProcessor.from_pretrained(model_id, use_fast=True)
