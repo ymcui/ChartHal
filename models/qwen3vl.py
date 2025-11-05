@@ -54,7 +54,7 @@ def generate_resp_qwen3vl(model_id: str, eval_data: dict):
 
 def prepare_inputs_for_vllm(messages, processor):
     text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    # qwen_vl_utils 0.0.14+ reqired
+    # qwen_vl_utils 0.0.14+ required
     image_inputs, video_inputs, video_kwargs = process_vision_info(
         messages,
         image_patch_size=processor.image_processor.patch_size,
