@@ -10,6 +10,7 @@ if __name__ == "__main__":
     args.add_argument("--data_file", type=str, default="data/charthal.json")
     args.add_argument("--model_id", type=str, required=True)
     args.add_argument("--model_type", type=str, required=True)
+    args.add_argument("--mode", type=str, default="transformers", choices=["transformers", "vllm"])
     args.add_argument("--batch_size", type=int, default=1)
     args.add_argument("--save_dir", type=str, default="results")
     args = args.parse_args()
@@ -28,15 +29,27 @@ if __name__ == "__main__":
 
     # generate response
     if args.model_type == "qwen25vl":
-        from models.qwen25vl import generate_resp_qwen25vl
-        eval_results = generate_resp_qwen25vl(args.model_id, eval_data)
+        if args.mode == "vllm":
+            from models.qwen25vl import generate_resp_qwen25vl_vllm
+            eval_results = generate_resp_qwen25vl_vllm(args.model_id, eval_data)
+        else:
+            from models.qwen25vl import generate_resp_qwen25vl
+            eval_results = generate_resp_qwen25vl(args.model_id, eval_data)
     elif args.model_type == "qwen3vl":
-        from models.qwen3vl import generate_resp_qwen3vl
-        eval_results = generate_resp_qwen3vl(args.model_id, eval_data)
+        if args.mode == "vllm":
+            from models.qwen3vl import generate_resp_qwen3vl_vllm
+            eval_results = generate_resp_qwen3vl_vllm(args.model_id, eval_data)
+        else:
+            from models.qwen3vl import generate_resp_qwen3vl
+            eval_results = generate_resp_qwen3vl(args.model_id, eval_data)
     elif args.model_type == "internvl25":
+        if args.mode == "vllm":
+            print("ERROR: InternVL2.5 VLLM generation not implemented yet. Use transformers mode.")
         from models.internvl25 import generate_resp_internvl25
         eval_results = generate_resp_internvl25(args.model_id, eval_data)
     elif args.model_type == "llama32v":
+        if args.mode == "vllm":
+            print("ERROR: Llama32V VLLM generation not implemented yet. Use transformers mode.")
         from models.llama32v import generate_resp_llama32v
         eval_results = generate_resp_llama32v(args.model_id, eval_data)
     else:
