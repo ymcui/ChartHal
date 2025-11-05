@@ -20,7 +20,12 @@ Please follow the steps below to evaluate the model's performance on the ChatHal
 git clone https://github.com/ymcui/ChartHal.git && cd ChartHal
 ```
 
-The evaluation includes three steps: generate response → evaluate response → scoring results.
+The evaluation includes three steps:
+
+```mermaid
+flowchart LR
+A[Generate Response] --> B[Evaluate Response] --> C[Get Final Results]
+```
 
 ### Step 1a: Generate response for GPT-series
 
@@ -57,7 +62,7 @@ After the inference, the response file will be saved at `results/gpt-5-mini/resp
 
 Similarly, we provide `generate.py` to showcase how to perform inference on open-source models.
 
-- Supported Models: Llama-3.2V, InternVL-2.5, Qwen2.5-VL, Qwen3-VL
+- Supported Models: `Llama-3.2V`, `InternVL-2.5`, `Qwen2.5-VL`, `Qwen3-VL`
 
 Dependency (take `Qwen2.5-VL` for example with `transformers` backend): 
 ```bash
