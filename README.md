@@ -55,9 +55,11 @@ After the inference, the response file will be saved at `results/gpt-5-mini/resp
 
 ### Step 1b: Generate response for Open-source models
 
-Similarly, we provide `generate.py` to showcase how to perform inference on open-source models (e.g., Qwen2.5-VL, InternVL-2.5, etc.).
+Similarly, we provide `generate.py` to showcase how to perform inference on open-source models.
 
-Dependency (take `Qwen2.5-VL` for example): 
+- Supported Models: Llama-3.2V, InternVL-2.5, Qwen2.5-VL, Qwen3-VL
+
+Dependency (take `Qwen2.5-VL` for example with `transformers` backend): 
 ```bash
 pip install -U transformers
 pip install qwen-vl-utils
@@ -70,6 +72,7 @@ python generate.py \
     --data_file data/charthal.json \
     --model_id /content/qwen2.5-vl-7b-inst \
     --model_type qwen25vl \
+    --mode transformers \
     --save_dir results
 ```
 
@@ -77,6 +80,7 @@ Params:
 - `data_file`: Path to the input data file (JSON format).
 - `model_id`: Path to the open-source model (e.g., `/content/qwen2.5-vl-7b-inst`).
 - `model_type`: The type of the model (e.g., `qwen25vl`, `internvl25`, `llama32v`, `qwen3vl`).
+- `mode`: The inference mode, either `transformers` or `vllm`. Default is `transformers`.
 - `save_dir`: Directory to save the generated responses.
 
 After the inference, the response file will be saved at `results/qwen2.5-vl-7b-inst/response.json`.
