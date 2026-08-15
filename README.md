@@ -1,3 +1,5 @@
+
+
 # 🌀 ChartHal
 
 **ChatHal** is a benchmark to comprehensively evaluate hallucination of visual language models (VLMs) in chart understanding. 
@@ -120,8 +122,8 @@ The output looks like:
 ```bash
 Scoring results saved to results/gpt-5-mini/score.json
   total_queries: 1062
-  total_correct: 287
-  overall_score: 27.02
+  total_correct: 337
+  overall_score: 31.73
 ```
 
 Showing the total number of queries, correct responses, and overall score for the evaluated model. For the detailed full results, please check `results/gpt-5-mini/score.json`.
